@@ -10,3 +10,9 @@ hugo*
 /resources/_gen
 
 # End of https://www.gitignore.io/api/hugo
+
+### macOS ###
+
+.DS_Store
+
+### end macOS ###

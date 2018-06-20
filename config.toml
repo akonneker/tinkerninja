@@ -1,4 +1,63 @@
-baseURL 	= "http://example.org/"
-languageCode 	= "en-us"
-title 		= "My New Hugo Site"
-theme 		= "casper-two"
+baseurl         = "/"
+theme           = "casper-two"
+languageCode    = "en-US"
+disqusShortname = ""
+#paginate        = 6
+#SectionPagesMenu = "main"
+canonifyurls    = true
+
+[params]
+  title       = "the tinker ninja"
+  subtitle    = "assorted hacks and builds"
+  copyright   = "© 2018"
+
+  cover       = "img/blog-cover.jpg"
+  description = "a repository for my personal projects"
+  metaDescription = ""
+  googleAnalytics = ""
+  customCSS = []
+  RSSLink = ""
+
+  twitterName = "thekonneker"
+  githubName = "akonneker"
+  linkedinName = "akonneker"
+  mediumName = ""
+
+  logo = "hugo-logo.png"
+  #orgName = "EM"
+  #orgWebsite = "https://www.telematika.org"
+  #orgDescription = "Here is a description placeholder for your org"
+
+  showSupport = true
+
+  author = "AK"
+  authorAvatar = "img/ghost-icon.png"
+  authorLocation = "USA"
+  #authorWebsite = "https://eueung.github.io"
+  #authorDescription = "Your description here"
+
+  pageNotFoundTitle = "404 - Page not found"
+
+  #casper or caspertwo
+  singleViewStyle = "casper"
+
+[permalinks]
+  post = "/post/:slug/"
+
+[[menu.main]]
+  name = "Home"
+  url = "/"
+  weight = 200
+
+
+[[menu.main]]
+  name = "Categories"
+  url = "/categories/"
+  weight = 99
+
+#[[menu.main]]
+#  name = "External"
+#  url = "https://google.com/"
+#  weight = 100
+
+
