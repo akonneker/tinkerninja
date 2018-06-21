@@ -11,7 +11,7 @@ canonifyurls    = true
   subtitle    = "assorted hacks and builds"
   copyright   = "© 2018"
 
-  cover       = "img/blog-cover.jpg"
+  cover       = "img/blog_cover_marble_bw_inv.jpg"
   description = "a repository for my personal projects"
   metaDescription = ""
   googleAnalytics = ""
