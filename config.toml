@@ -1,63 +1,21 @@
-baseurl         = "/"
-theme           = "casper-two"
-languageCode    = "en-US"
-disqusShortname = ""
-#paginate        = 6
-#SectionPagesMenu = "main"
-canonifyurls    = true
+# The URL the site will be built for
+base_url = "https://tinker.ninja"
 
-[params]
-  title       = "the tinker ninja"
-  subtitle    = "assorted hacks and builds"
-  copyright   = "© 2018"
+# Whether to automatically compile all Sass files in the sass directory
+compile_sass = true
 
-  cover       = "img/blog_cover_marble_bw_inv.jpg"
-  description = "a repository for my personal projects"
-  metaDescription = ""
-  googleAnalytics = ""
-  customCSS = []
-  RSSLink = ""
+# Whether to do syntax highlighting
+# Theme can be customised by setting the `highlight_theme` variable to a theme supported by Zola
+highlight_code = true
 
-  twitterName = "thekonneker"
-  githubName = "akonneker"
-  linkedinName = "akonneker"
-  mediumName = ""
+# Whether to build a search index to be used later on by a JavaScript library
+build_search_index = false
 
-  logo = "hugo-logo.png"
-  #orgName = "EM"
-  #orgWebsite = "https://www.telematika.org"
-  #orgDescription = "Here is a description placeholder for your org"
+theme = "hyde"
+title = "tinker . ninja"
+description = "random thoughts about hw & sw"
 
-  showSupport = true
-
-  author = "AK"
-  authorAvatar = "img/ghost-icon.png"
-  authorLocation = "USA"
-  #authorWebsite = "https://eueung.github.io"
-  #authorDescription = "Your description here"
-
-  pageNotFoundTitle = "404 - Page not found"
-
-  #casper or caspertwo
-  singleViewStyle = "casper"
-
-[permalinks]
-  post = "/post/:slug/"
-
-[[menu.main]]
-  name = "Home"
-  url = "/"
-  weight = 200
-
-
-[[menu.main]]
-  name = "Categories"
-  url = "/categories/"
-  weight = 99
-
-#[[menu.main]]
-#  name = "External"
-#  url = "https://google.com/"
-#  weight = 100
-
-
+[extra]
+hyde_links = [
+    {url = "hhttps://github.com/akonneker", name = "github"},
+]
