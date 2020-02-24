@@ -17,5 +17,5 @@ description = "random thoughts about hw & sw"
 
 [extra]
 hyde_links = [
-    {url = "hhttps://github.com/akonneker", name = "github"},
+    {url = "https://github.com/akonneker", name = "github"},
 ]
