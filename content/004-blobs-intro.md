@@ -3,7 +3,7 @@ title = "Introducing blobs, which will one day be a programming game."
 date = 2025-06-29
 +++
 
-![Blob simulation](../images/simulation_slow.avif)
+![Blob simulation](/images/simulation_slow.avif)
 
 Being unemployed is busier than I thought it would be, and projects are hard to finish when you have a toddler or a teen. Or in my case, both! This project is not at all finished, but nearing a place where I want to cajole acquaintances to participate in it.
 
