@@ -23,8 +23,8 @@ One thing I'm not currently happy with is that message-passing can only happen b
 
 There are still a lot of things to do, some of which will get knocked out within the week, and others which will take a while and depend on any of my acquaintances taking an interest:
 
-1) Make a win condition. Should be either destroying the opposing teams' blobs, or a score based on total energy of living blobs and percentage of the map explored.
-2) Take a crack at creating a reasonable mind function myself. The existing ones are vibe-coded messes that don't do anything.
+1) ~~Make a win condition. Should be either destroying the opposing teams' blobs, or a score based on total energy of living blobs and percentage of the map explored.~~
+2) ~~Take a crack at creating a reasonable mind function myself. The existing ones are vibe-coded messes that don't do anything.~~
 3) Add a bunch of tests and squash a lot of bugs.
 4) Add more plots/introspection. You can currently use the GUI to see info about all the blobs in the field, but it's pretty dumb and basic. I want charts and plots, etc.
 5) Parallelize execution for simulation speedup
