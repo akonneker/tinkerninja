@@ -1,5 +1,5 @@
 +++
-title = "Introducing blobs, which will one day be a programming game.
+title = "Introducing blobs, which will one day be a programming game."
 date = 2025-06-29
 +++
 
