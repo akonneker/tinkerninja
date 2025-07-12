@@ -5,6 +5,24 @@
   <h1 class="post-title">{{ page.title }}</h1>
   <span class="post-date">{{ page.date | date(format="%Y-%m-%d") }}</span>
   {{ page.content | safe }}
+  
+  <!-- Previous/Next Navigation -->
+  {% if page.lower or page.higher %}
+    <div class="post-nav" style="width:100%; margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #eee;">
+      {% if page.lower %}
+        <a class="previous nav-link" style="float:right" href="{{ page.lower.permalink }}">next ›</a>
+      {% endif %}
+      {% if page.higher %}
+        <a class="next nav-link" style="float:left" href="{{ page.higher.permalink }}">‹ previous</a>
+      {% endif %}
+    </div>
+    <br style="clear:both;">
+  {% endif %}
+  
+  <!-- Home Navigation -->
+  <div class="post-navigation" style="margin-top: 1rem; text-align: center;">
+      <a href="{{ get_url(path="") }}" class="nav-link">← Back to Home</a>
+  </div>
 </div>
 {% endblock content %}
 

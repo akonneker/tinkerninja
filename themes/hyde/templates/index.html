@@ -22,6 +22,26 @@
 
       {% block extra_head %}
       {% endblock extra_head %}
+      
+      <style>
+        .nav-link {
+          color: #268bd2;
+          text-decoration: none;
+          padding: 0.5rem 1rem;
+          border: 1px solid #268bd2;
+          border-radius: 4px;
+          display: inline-block;
+          transition: all 0.3s ease;
+        }
+        .nav-link:hover {
+          background-color: #268bd2;
+          color: white;
+        }
+        .post-summary {
+          margin-top: 0.5rem;
+          color: #666;
+        }
+      </style>
     </head>
 
     <body class="{{ config.extra.hyde_theme }} {% if config.extra.hyde_reverse %}layout-reverse{% endif %}">
@@ -39,6 +59,7 @@
 
                     <ul class="sidebar-nav">
                         {% block sidebar_nav %}
+                        <li class="sidebar-nav-item"><a href="#" onclick="togglePostIndex(); return false;">post index</a></li>
                         {% for link in config.extra.hyde_links %}
                         <li class="sidebar-nav-item"><a href="{{link.url}}">{{link.name}}</a></li>
                         {% endfor %}
@@ -50,21 +71,97 @@
 
         <div class="content container">
             {% block content %}
-                <div class="posts">
-                    {% for page in section.pages | reverse %}
+                {% set latest_post = section.pages | first %}
+                {% if latest_post %}
+                <!-- Latest Post View -->
+                <div id="latest-post-view" class="post">
+                    <h1 class="post-title">
+                        <a href="{{ latest_post.permalink }}">
+                            {{ latest_post.title }}
+                        </a>
+                    </h1>
+
+                    <span class="post-date">{{ latest_post.date | date(format="%Y-%m-%d") }}</span>
+                    
+                    <div class="post-content">
+                        {{ latest_post.content | safe }}
+                    </div>
+                    
+                    <!-- Previous/Next Navigation -->
+                    <div class="post-navigation" style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #eee;">
+                        {% set all_posts = section.pages %}
+                        {% set prev_post = false %}
+                        {% set next_post = false %}
+                        {% set found_current = false %}
+                        
+                        {% for post in all_posts %}
+                            {% if found_current and not next_post %}
+                                {% set_global next_post = post %}
+                            {% endif %}
+                            {% if post.permalink == latest_post.permalink %}
+                                {% set_global found_current = true %}
+                            {% endif %}
+                            {% if not found_current %}
+                                {% set_global prev_post = post %}
+                            {% endif %}
+                        {% endfor %}
+                        
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                {% if prev_post %}
+                                    <a href="{{ prev_post.permalink }}" class="nav-link">← {{ prev_post.title }}</a>
+                                {% endif %}
+                            </div>
+                            <div>
+                                {% if next_post %}
+                                    <a href="{{ next_post.permalink }}" class="nav-link">{{ next_post.title }} →</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Post Index View (hidden by default) -->
+                <div id="post-index-view" class="posts" style="display: none;">
+                    <h1>All Posts</h1>
+                    {% for page in section.pages %}
                       <div class="post">
-                        <h1 class="post-title">
+                        <h2 class="post-title">
                           <a href="{{ page.permalink }}">
                             {{ page.title }}
                           </a>
-                        </h1>
-
+                        </h2>
                         <span class="post-date">{{ page.date | date(format="%Y-%m-%d") }}</span>
+                        {% if page.summary %}
+                        <div class="post-summary">
+                            {{ page.summary | safe }}
+                        </div>
+                        {% endif %}
                       </div>
                     {% endfor %}
                 </div>
+                {% else %}
+                <div class="posts">
+                    <p>No posts available.</p>
+                </div>
+                {% endif %}
             {% endblock content %}
         </div>
+
+        <script>
+            function togglePostIndex() {
+                const latestPostView = document.getElementById('latest-post-view');
+                const postIndexView = document.getElementById('post-index-view');
+                
+                if (postIndexView.style.display === 'none' || postIndexView.style.display === '') {
+                    latestPostView.style.display = 'none';
+                    postIndexView.style.display = 'block';
+                } else {
+                    latestPostView.style.display = 'block';
+                    postIndexView.style.display = 'none';
+                }
+            }
+        </script>
 
     </body>
 
