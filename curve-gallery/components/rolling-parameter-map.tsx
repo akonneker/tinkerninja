@@ -1,4 +1,5 @@
-'use client';
+import { MathText } from '@/components/math-text';
+('use client');
 import { useId, useRef, useState } from 'react';
 import type { PointerEvent } from 'react';
 import { familyPresets } from '@/lib/curve-families';
@@ -166,7 +167,7 @@ export function RollingParameterMap({
           );
         })}
         <text x="356" y="132" textAnchor="end" className="rolling-map-region">
-          on the rim · d/r = 1
+          on the rim · ratio 1
         </text>
         <text x="356" y="65" textAnchor="end" className="rolling-map-region">
           beyond the rim
@@ -313,9 +314,12 @@ export function RollingParameterMap({
       </div>
       {settings.mode !== 'line' && (
         <p className="rolling-map-integer-note">
-          <span aria-hidden="true">·</span> Faint points mark integer radius
-          ratios R:r = n:1, at d/r = 1 or 2. Hover for values; select a point to
-          use its exact ratio.
+          <span aria-hidden="true">·</span>{' '}
+          <MathText>
+            {
+              'Faint points mark integer radius ratios R:r = n:1, at d/r = 1 or 2. Hover for values; select a point to use its exact ratio.'
+            }
+          </MathText>
         </p>
       )}
       <h3>Named points & examples</h3>
@@ -333,8 +337,7 @@ export function RollingParameterMap({
             <span>
               <strong>{p.name}</strong>
               <small>
-                r = {p.parameters.radius === 1 / 3 ? '⅓' : p.parameters.radius}{' '}
-                · d/r = {p.parameters.offset}
+                <MathText>{`r = ${p.parameters.radius === 1 / 3 ? '⅓' : p.parameters.radius} · d/r = ${p.parameters.offset}`}</MathText>
               </small>
             </span>
           </button>
@@ -343,9 +346,11 @@ export function RollingParameterMap({
       <p className="family-control-note">
         Markers are representative settings; whole regions share curve-family
         names.
-        {settings.mode === 'line'
-          ? ' Every point on d/r = 1 is a cycloid; radius changes its size.'
-          : ' The dashed line places the tracing point on the wheel’s rim.'}
+        <MathText>
+          {settings.mode === 'line'
+            ? ' Every point on d/r = 1 is a cycloid; radius changes its size.'
+            : ' The dashed line places the tracing point on the wheel’s rim.'}
+        </MathText>
       </p>
     </section>
   );

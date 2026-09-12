@@ -9,6 +9,7 @@ const folder = mkdtempSync(join(tmpdir(), 'curve-atlas-tests-'));
 try {
   writeFileSync(join(folder, 'package.json'), '{"type":"module"}');
   for (const name of [
+    'prose-math',
     'equations',
     'curves',
     'catalog',
@@ -55,6 +56,50 @@ try {
   const { physicsEquations, curveEquations } = await import(
     pathToFileURL(join(folder, 'equations.js'))
   );
+  const { splitMathText, proseMath } = await import(
+    pathToFileURL(join(folder, 'prose-math.js'))
+  );
+  function assertProseMath(text) {
+    if (!text) return;
+    const parts = splitMathText(text);
+    assert.equal(
+      parts.map((p) => (typeof p === 'string' ? p : p.text)).join(''),
+      text,
+      'Prose fallback must preserve the exact original text',
+    );
+    for (const part of parts) {
+      if (typeof part === 'string') {
+        assert(
+          !/[=<>≤≥√∫±²³ⁿ₀₁]/u.test(part),
+          `Unformatted mathematical prose: ${part}`,
+        );
+      } else {
+        const html = renderToString(part.tex, {
+          displayMode: false,
+          strict: 'error',
+          throwOnError: true,
+          trust: false,
+        });
+        assert(!html.includes('katex-display'));
+      }
+    }
+  }
+  for (const entry of proseMath) assertProseMath(entry.text);
+  for (const curve of curves) {
+    for (const key of ['history', 'description', 'uses', 'note'])
+      assertProseMath(curve[key]);
+  }
+  assert.deepEqual(splitMathText('speaker = 2; 2kg; topic; pi'), [
+    'speaker = 2; 2kg; topic; pi',
+  ]);
+  assert.equal(splitMathText('p = −1/2')[0].tex, String.raw`p=-\frac12`);
+  for (const text of [
+    'R = 1, r = 0.3333, d/r = 1.5.',
+    'k = 12. Odd k gives k petals; even k gives 2k.',
+    'r = ⅓ · d/r = 2',
+    'phase 90° (0.500π radians); vertical amplitude 0.75a',
+  ])
+    assertProseMath(text);
   function assertEquation(curve) {
     if (curve.fractal) {
       assert.equal(
@@ -645,6 +690,8 @@ try {
   assert.equal(initialFamilySettings('rolling', 'deltoid').radius, 1 / 3);
   assert.equal(initialFamilySettings('lissajous').phase, 90);
   for (const family of curveFamilies) {
+    for (const key of ['mechanism', 'summary', 'history', 'uses'])
+      assertProseMath(family[key]);
     assert(byId(family.thumbnail));
     for (const member of family.members) assert(byId(member));
     for (const preset of familyPresets[family.id]) {
@@ -653,6 +700,8 @@ try {
         ...preset.values,
       });
       assertEquation(result.curve);
+      assertProseMath(result.curve.note);
+      assertProseMath(result.status);
       if (preset.curve)
         assert(
           result.matches.includes(preset.curve),

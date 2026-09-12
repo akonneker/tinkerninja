@@ -1,3 +1,4 @@
+import { MathText } from '@/components/math-text';
 import { MathEquation } from '@/components/math-equation';
 import { physicsEquations } from '@/lib/equations';
 ('use client');
@@ -96,8 +97,8 @@ export function BrachistochroneLab() {
           />
           <p className="family-control-note">
             All three point beads start from rest at A, slide without friction,
-            and finish at B. Gravity is 9.81 m/s². No rolling inertia or air
-            resistance is included.
+            and finish at B. Gravity is <MathText>{'9.81 m/s²'}</MathText>. No
+            rolling inertia or air resistance is included.
           </p>
           <div className="physics-launch-controls">
             <button
@@ -247,9 +248,13 @@ export function BrachistochroneLab() {
             </table>
           </div>
           <p className="family-control-note">
-            All reach B at the same speed, √(2gΔy) ={' '}
-            {Math.sqrt(2 * gravity * drop).toFixed(2)} m/s. Their speeds along
-            the way differ.
+            All reach B at the same speed,{' '}
+            <MathEquation
+              inline
+              tex={String.raw`\sqrt{2g\Delta y}=${Math.sqrt(2 * gravity * drop).toFixed(2)}\,\mathrm{m}/\mathrm{s}`}
+              fallback={`√(2gΔy) = ${Math.sqrt(2 * gravity * drop).toFixed(2)} m/s`}
+            />
+            . Their speeds along the way differ.
           </p>
         </section>
       </div>

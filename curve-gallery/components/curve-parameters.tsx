@@ -1,4 +1,5 @@
-'use client';
+import { MathText } from '@/components/math-text';
+('use client');
 import { Slider } from '@/components/ui/slider';
 import { defaultFigures, lissajousPresets } from '@/lib/curve-controls';
 import type { FigureSettings } from '@/lib/curve-controls';
@@ -131,7 +132,9 @@ export function CurveParameters({
             ))}
           </div>
           {range('petals', 'Polar frequency k', 1, 12, 1)}
-          <p>Odd k gives k petals; even k gives 2k.</p>
+          <p>
+            <MathText>{'Odd k gives k petals; even k gives 2k.'}</MathText>
+          </p>
         </>
       ) : (
         <>

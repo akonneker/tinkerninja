@@ -1,4 +1,5 @@
-'use client';
+import { MathText } from '@/components/math-text';
+('use client');
 import { useEffect, useId, useMemo, useRef, useState } from 'react';
 import { PageLink as Link } from '@/components/page-link';
 import type { PointerEvent as ReactPointerEvent } from 'react';
@@ -269,7 +270,9 @@ export function Explorer({
           )}
         </div>
       )}
-      <p className="curve-description">{curve.description}</p>
+      <p className="curve-description">
+        <MathText>{curve.description}</MathText>
+      </p>
       {curve.fractal && (
         <section className="order-controls" aria-label="Fractal order">
           <div className="order-heading">
@@ -731,9 +734,13 @@ export function Explorer({
         <TabsContent value="about">
           <div className="story">
             <h3>A little history</h3>
-            <p>{curve.history}</p>
+            <p>
+              <MathText>{curve.history}</MathText>
+            </p>
             <h3>Uses & connections</h3>
-            <p>{curve.uses}</p>
+            <p>
+              <MathText>{curve.uses}</MathText>
+            </p>
             <a href={curve.source} target="_blank" rel="noreferrer">
               {sourceLabel(curve)} <ArrowUpRight size={14} />
             </a>
@@ -756,13 +763,16 @@ export function Explorer({
                     <br />
                   </span>
                 ))}
-                Angles are in radians. Scale a = {a.toFixed(2)}.
+                Angles are in radians. Scale{' '}
+                <MathText>{`a = ${a.toFixed(2)}`}</MathText>.
               </p>
             )}
             <h3>Reading this drawing</h3>
             <p>
-              {curve.note ??
-                'A complete representative of this curve is shown. Scale a changes the size without changing the shape.'}
+              <MathText>
+                {curve.note ??
+                  'A complete representative of this curve is shown. Scale a changes the size without changing the shape.'}
+              </MathText>
             </p>
             <div className="length-readout">
               <span>Displayed length ≈</span>

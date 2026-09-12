@@ -1,4 +1,5 @@
-'use client';
+import { MathText } from '@/components/math-text';
+('use client');
 import { useMemo, useState } from 'react';
 import { PageLink as Link } from '@/components/page-link';
 import { ArrowLeft, ArrowUpRight } from 'lucide-react';
@@ -110,7 +111,9 @@ export function FamilyLab({
         <div className="family-page-heading">
           <span className="eyebrow">THE FAMILY EXPLORER</span>
           <h1>{family.title}</h1>
-          <p>{family.summary}</p>
+          <p>
+            <MathText>{family.summary}</MathText>
+          </p>
         </div>
         <div className="family-lab-layout">
           <div className="family-explanation">
@@ -153,9 +156,11 @@ export function FamilyLab({
                     </TabsList>
                   </Tabs>
                   <p className="family-control-note">
-                    {settings.mode === 'line'
-                      ? 'The rolling radius sets the scale of each arch.'
-                      : 'Fixed circle radius R = 1. Change r to vary the radius ratio R/r.'}
+                    <MathText>
+                      {settings.mode === 'line'
+                        ? 'The rolling radius sets the scale of each arch.'
+                        : 'Fixed circle radius R = 1. Change r to vary the radius ratio R/r.'}
+                    </MathText>
                   </p>
                   <RollingParameterMap
                     key={settings.mode}
@@ -230,7 +235,9 @@ export function FamilyLab({
               )}
               <div className="family-current" aria-live="polite">
                 <span className="eyebrow">THIS SETTING</span>
-                <p>{result.status}</p>
+                <p>
+                  <MathText>{result.status}</MathText>
+                </p>
                 {result.matches.map((id) => (
                   <Link key={id} href={`/?curve=${id}#collection`}>
                     {namedCurve(id).name} <ArrowUpRight size={15} />
@@ -245,11 +252,17 @@ export function FamilyLab({
             </section>
             <section className="family-context">
               <h2>One idea, many curves</h2>
-              <p>{family.mechanism}</p>
+              <p>
+                <MathText>{family.mechanism}</MathText>
+              </p>
               <h3>Where it comes from</h3>
-              <p>{family.history}</p>
+              <p>
+                <MathText>{family.history}</MathText>
+              </p>
               <h3>Why it matters</h3>
-              <p>{family.uses}</p>
+              <p>
+                <MathText>{family.uses}</MathText>
+              </p>
               <a href={family.source} target="_blank" rel="noreferrer">
                 {familyId === 'fractals'
                   ? 'Sagan · Space-Filling Curves'

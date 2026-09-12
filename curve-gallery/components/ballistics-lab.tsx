@@ -1,3 +1,4 @@
+import { MathText } from '@/components/math-text';
 import { MathEquation } from '@/components/math-equation';
 import { physicsEquations } from '@/lib/equations';
 ('use client');
@@ -124,8 +125,9 @@ export function BallisticsLab() {
             ))}
           </div>
           <p className="family-control-note">
-            Gravity is 9.81 m/s². The launch point is 1 m above level ground.
-            Drag opposes motion and grows with the square of speed.
+            Gravity is <MathText>{'9.81 m/s²'}</MathText>. The launch point is 1
+            m above level ground. Drag opposes motion and grows with the square
+            of speed.
           </p>
           <div className="physics-launch-controls">
             <button
@@ -314,10 +316,11 @@ export function BallisticsLab() {
             fallback="aₓ = −k|v|vₓ; aᵧ = −g − k|v|vᵧ"
           />
           <p>
-            The second model adds quadratic drag, with k = ρCᴅA/(2m). The same
-            resistance acts opposite the velocity vector, slowing horizontal
-            motion as well as changing ascent and descent. Set k to zero and the
-            two paths coincide.
+            The second model adds quadratic drag, with{' '}
+            <MathText>{'k = ρCᴅA/(2m)'}</MathText>. The same resistance acts
+            opposite the velocity vector, slowing horizontal motion as well as
+            changing ascent and descent. Set k to zero and the two paths
+            coincide.
           </p>
           <p>
             These trajectories are integrated numerically in time and stop at

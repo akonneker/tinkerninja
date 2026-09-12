@@ -1,3 +1,4 @@
+import { MathText } from '@/components/math-text';
 import { MathEquation } from '@/components/math-equation';
 import { physicsEquations } from '@/lib/equations';
 ('use client');
@@ -233,9 +234,11 @@ export function CableLab() {
             fallback="y″ = λ[(1 − m)√(1 + y′²) + m]"
           />
           <p>
-            In the normalized drawing, λ is adjusted to keep y(±1) equal to the
-            chosen sag and y(0) = y′(0) = 0. At m = 0, y = [cosh(λx) − 1]/λ. At
-            m = 1, y = λx²/2.
+            <MathText>
+              {
+                'In the normalized drawing, λ is adjusted to keep y(±1) equal to the chosen sag and y(0) = y′(0) = 0. At m = 0, y = [cosh(λx) − 1]/λ. At m = 1, y = λx²/2.'
+              }
+            </MathText>
           </p>
           <p>
             This is a sequence of static equilibria for a flexible cable. It
