@@ -26,6 +26,7 @@ const scratch = await mkdtemp(join(tmpdir(), "curve-atlas-export-"));
 try {
   await writeFile(join(scratch, "package.json"), '{"type":"module"}');
   for (const name of [
+    "equations",
     "curves",
     "catalog",
     "fractals",
@@ -44,7 +45,7 @@ try {
           module: ts.ModuleKind.ES2022,
         },
       })
-      .outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'");
+      .outputText.replace(/from (['"])(\.\/[^'"]+)\1/g, 'from "$2.js"' );
     await writeFile(join(scratch, `${name}.js`), js);
   }
   const load = (name) => import(pathToFileURL(join(scratch, name + ".js")).href);

@@ -2233,3 +2233,9 @@ button {
   color: #39577f;
   margin-right: 3px;
 }
+
+/* Keep wide formulas within their panel, including narrow mobile layouts. */
+.math-equation { overflow-x: auto; overflow-wrap: normal; max-width: 100%; }
+.math-equation .katex-display { margin: 0.25em 0; text-align: left; }
+.math-equation .katex-display > .katex { text-align: left; }
+@media (max-width: 600px) { .math-equation { font-size: 15px; } }

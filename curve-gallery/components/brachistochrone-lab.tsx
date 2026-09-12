@@ -1,4 +1,6 @@
-'use client';
+import { MathEquation } from '@/components/math-equation';
+import { physicsEquations } from '@/lib/equations';
+('use client');
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { PageLink as Link } from '@/components/page-link';
 import { Play, Pause, RotateCcw } from 'lucide-react';
@@ -267,11 +269,11 @@ export function BrachistochroneLab() {
             path is fitted to your chosen A and B; it is not an arbitrary
             cycloid.
           </p>
-          <div className="physics-equation">
-            x = r(θ − sin θ)
-            <br />y = −r(1 − cos θ)
-            <br />T = θ₁√(r/g)
-          </div>
+          <MathEquation
+            className="physics-equation"
+            tex={physicsEquations.brachistochrone}
+            fallback="x = r(θ − sin θ); y = −r(1 − cos θ); T = θ₁√(r/g)"
+          />
           <p>
             The endpoint determines r and θ₁. Energy conservation gives speed v
             = √(−2gy), and arrival time is the integral of ds/v. The straight

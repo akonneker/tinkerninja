@@ -1,0 +1,107 @@
+// LaTeX is display metadata only; the numerical curve functions remain separate.
+export const aligned = (...lines: string[]) =>
+  String.raw`\begin{aligned}${lines.join(String.raw`\\`)}\end{aligned}`;
+const tex = String.raw;
+export const curveEquations: Record<string, string> = {
+  lemniscate: tex`(x^2+y^2)^2=a^2(x^2-y^2)`,
+  astroid: aligned(tex`x&=a\cos^3 t`, tex`y&=a\sin^3 t`),
+  cardioid: tex`r=a(1-\cos t)`,
+  spiral: tex`r=at`,
+  cycloid: aligned(tex`x&=a(t-\sin t)`, tex`y&=a(1-\cos t)`),
+  catenary: aligned(tex`x&=at`, tex`y&=a\cosh t`),
+  circle: aligned(tex`x&=a\cos t`, tex`y&=a\sin t`),
+  ellipse: aligned(tex`x&=2a\cos t`, tex`y&=a\sin t`),
+  parabola: aligned(tex`x&=at`, tex`y&=at^2`),
+  hyperbola: aligned(tex`x&=\pm a\cosh t`, tex`y&=0.6a\sinh t`),
+  'rectangular-hyperbola': aligned(tex`x&=at`, tex`y&=\frac{a}{t}`),
+  deltoid: aligned(tex`x&=a(2\cos t+\cos 2t)`, tex`y&=a(2\sin t-\sin 2t)`),
+  nephroid: aligned(tex`x&=a(3\cos t-\cos 3t)`, tex`y&=a(3\sin t-\sin 3t)`),
+  epicycloid: aligned(tex`x&=a(6\cos t-\cos 6t)`, tex`y&=a(6\sin t-\sin 6t)`),
+  hypocycloid: aligned(tex`x&=a(4\cos t+\cos 4t)`, tex`y&=a(4\sin t-\sin 4t)`),
+  epitrochoid: aligned(
+    tex`x&=a(4\cos t-2\cos 4t)`,
+    tex`y&=a(4\sin t-2\sin 4t)`,
+  ),
+  hypotrochoid: aligned(
+    tex`x&=a\left(3\cos t+3\cos\frac{3t}{2}\right)`,
+    tex`y&=a\left(3\sin t-3\sin\frac{3t}{2}\right)`,
+  ),
+  trochoid: aligned(tex`x&=a(t-1.5\sin t)`, tex`y&=a(1-1.5\cos t)`),
+  limacon: tex`r=a(1+2\cos t)`,
+  rose: tex`r=a\cos 5t`,
+  quadrifolium: tex`r=a\sin 2t`,
+  lissajous: aligned(tex`x&=a\cos 3t`, tex`y&=a\sin 2t`),
+  folium: aligned(
+    tex`x&=\frac{3a\cos^2 t\sin t}{D}`,
+    tex`y&=\frac{3a\cos t\sin^2 t}{D}`,
+    tex`D&=\cos^3 t+\sin^3 t`,
+  ),
+  cissoid: aligned(tex`x&=\frac{2at^2}{1+t^2}`, tex`y&=\frac{2at^3}{1+t^2}`),
+  conchoid: tex`r=a(\sec t+2)`,
+  strophoid: aligned(
+    tex`x&=a\frac{t^2-1}{t^2+1}`,
+    tex`y&=at\frac{t^2-1}{t^2+1}`,
+  ),
+  witch: aligned(tex`x&=at`, tex`y&=\frac{a}{1+t^2}`),
+  cassini: tex`r^2=a^2\left[\cos 2t+\sqrt{1.2^4-\sin^2 2t}\right]`,
+  cubic: aligned(tex`x&=at`, tex`y&=at^3`),
+  semicubical: aligned(tex`x&=at^2`, tex`y&=at^3`),
+  serpentine: aligned(tex`x&=at`, tex`y&=\frac{at}{1+t^2}`),
+  trisectrix: aligned(
+    tex`x&=a\frac{t^2-3}{1+t^2}`,
+    tex`y&=at\frac{t^2-3}{1+t^2}`,
+  ),
+  tschirnhausen: aligned(tex`x&=a(1-3t^2)`, tex`y&=at(3-t^2)`),
+  piriform: aligned(tex`x&=a(1+\cos t)`, tex`y&=a\sin t(1+\cos t)`),
+  kampyle: aligned(tex`x&=a\sec t`, tex`y&=a\tan t\sec t`),
+  kappa: aligned(tex`x&=a\cos t\cot t`, tex`y&=a\cos t`),
+  lame: tex`\left|\frac{x}{a}\right|^4+\left|\frac{y}{0.7a}\right|^4=1`,
+  'log-spiral': tex`r=ae^{0.15t}`,
+  fermat: tex`r=\pm a\sqrt{t}`,
+  'hyperbolic-spiral': tex`r=\frac{a}{t}`,
+  lituus: tex`r=\frac{a}{\sqrt{t}}`,
+  involute: aligned(tex`x&=a(\cos t+t\sin t)`, tex`y&=a(\sin t-t\cos t)`),
+  tractrix: aligned(tex`x&=a(t-\tanh t)`, tex`y&=a\operatorname{sech}t`),
+  sine: aligned(tex`x&=at`, tex`y&=a\sin t`),
+  exponential: aligned(tex`x&=at`, tex`y&=ae^t`),
+  logarithm: aligned(tex`x&=at`, tex`y&=a\ln t`),
+  cayley: tex`r=a\cos^3\frac{t}{3}`,
+  bicorn: aligned(
+    tex`x&=a\sin t`,
+    tex`y&=\frac{a\cos^2 t(2+\cos t)}{3+\sin^2 t}`,
+  ),
+  freeth: tex`r=a\left(1+2\sin\frac{t}{2}\right)`,
+  pursuit: aligned(
+    tex`x&=at`,
+    tex`y&=a\left(\frac{t^2-1}{4}-\frac12\ln t\right)`,
+  ),
+  kieroid: tex`\frac{r}{a}=\frac{1.2+0.5\sin^2 u}{\cos u}\pm\sqrt{1-0.25\sin^2 u}`,
+  clothoid: aligned(
+    tex`x&=a\int_0^t\cos(u^2)\,du`,
+    tex`y&=a\int_0^t\sin(u^2)\,du`,
+  ),
+  cochleoid: aligned(tex`r&=\frac{a\sin t}{t}`, tex`r(0)&=a`),
+  bezier: aligned(
+    tex`B(t)&=(1-t)^3P_0+3(1-t)^2tP_1`,
+    tex`&\quad+3(1-t)t^2P_2+t^3P_3`,
+  ),
+  tangent: aligned(tex`x&=at`, tex`y&=a\tan t`),
+  cosine: aligned(tex`x&=at`, tex`y&=a\cos t`),
+};
+export const physicsEquations = {
+  cable: tex`H y''=w\sqrt{1+(y')^2}+q`,
+  cableNormalized: tex`y''=\lambda\left[(1-m)\sqrt{1+(y')^2}+m\right]`,
+  ballistics: aligned(
+    tex`x&=v_0\cos(\theta)t`,
+    tex`y&=1+v_0\sin(\theta)t-\frac12gt^2`,
+  ),
+  drag: aligned(
+    tex`a_x&=-k\lVert\mathbf v\rVert v_x`,
+    tex`a_y&=-g-k\lVert\mathbf v\rVert v_y`,
+  ),
+  brachistochrone: aligned(
+    tex`x&=r(\theta-\sin\theta)`,
+    tex`y&=-r(1-\cos\theta)`,
+    tex`T&=\theta_1\sqrt{\frac{r}{g}}`,
+  ),
+};

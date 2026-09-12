@@ -1,3 +1,4 @@
+import { curveEquations } from './equations';
 import { additionalCurves, fractalCurves } from './catalog';
 import { fractalPoints } from './fractals';
 export type Point = { x: number; y: number; t: number; segment: number };
@@ -9,6 +10,7 @@ export type Curve = {
   name: string;
   family: string;
   equation: string;
+  equationTex?: string;
   description: string;
   history: string;
   uses: string;
@@ -128,7 +130,7 @@ export const curves: Curve[] = [
   ...initialCurves,
   ...additionalCurves,
   ...fractalCurves,
-];
+].map((curve) => ({ ...curve, equationTex: curveEquations[curve.id] }));
 export function sampleCurve(
   curve: Curve,
   a = 1,

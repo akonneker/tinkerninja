@@ -1,3 +1,4 @@
+import { aligned } from './equations';
 import { curves } from './curves';
 import type { Curve } from './curves';
 import { configureCurve, defaultFigures, rollingState } from './curve-controls';
@@ -409,6 +410,21 @@ export function buildFamilyCurve(
           : s.mode === 'inside'
             ? 'x = a[(R−r)cos t + d cos((R/r−1)t)]; y = a[(R−r)sin t − d sin((R/r−1)t)]'
             : 'x = a[(R+r)cos t − d cos((R/r+1)t)]; y = a[(R+r)sin t − d sin((R/r+1)t)]',
+      equationTex:
+        s.mode === 'line'
+          ? aligned(
+              String.raw`x&=a(${r}t-${d}\sin t)`,
+              String.raw`y&=a(${r}-${d}\cos t)`,
+            )
+          : s.mode === 'inside'
+            ? aligned(
+                String.raw`x&=a\left[(R-r)\cos t+d\cos\left(\left(\frac Rr-1\right)t\right)\right]`,
+                String.raw`y&=a\left[(R-r)\sin t-d\sin\left(\left(\frac Rr-1\right)t\right)\right]`,
+              )
+            : aligned(
+                String.raw`x&=a\left[(R+r)\cos t-d\cos\left(\left(\frac Rr+1\right)t\right)\right]`,
+                String.raw`y&=a\left[(R+r)\sin t-d\sin\left(\left(\frac Rr+1\right)t\right)\right]`,
+              ),
       fn: () => [0, 0],
       note: `R = ${R}, r = ${r.toFixed(4)}, d/r = ${s.offset}. ${status}`,
     };
@@ -448,6 +464,7 @@ export function buildFamilyCurve(
       ...namedCurve(matches[0]),
       id: 'family-conics',
       equation: `r = a/(1 + ${e.toFixed(4)} cos t)`,
+      equationTex: String.raw`r=\frac{a}{1+${e.toFixed(4)}\cos t}`,
       settings: { eccentricity: e },
       ranges,
       fn: (t, a) => {
@@ -510,6 +527,10 @@ export function buildFamilyCurve(
         logarithmic: s.growth === 'log' ? 1 : 0,
       },
       equation: s.growth === 'log' ? `r = a exp(${b}t)` : `r = a(t/2π)^${p}`,
+      equationTex:
+        s.growth === 'log'
+          ? String.raw`r=ae^{${b}t}`
+          : String.raw`r=a\left(\frac{t}{2\pi}\right)^{${p}}`,
       ranges: [[p < 0 && s.growth === 'power' ? 0.5 : 0, 6 * Math.PI]],
       fn: (t, a) => {
         const r =

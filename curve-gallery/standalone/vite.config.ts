@@ -7,7 +7,22 @@ export default defineConfig({
   root: fileURLToPath(new URL(".", import.meta.url)),
   publicDir: fileURLToPath(new URL("../public", import.meta.url)),
   resolve: { alias: { "@": fileURLToPath(new URL("..", import.meta.url)) } },
-  plugins: [react()],
+  plugins: [
+    react(),
+    {
+      name: "katex-woff2-only",
+      enforce: "pre",
+      transform(source, id) {
+        if (!id.replaceAll("\\", "/").endsWith("/katex/dist/katex.min.css")) return;
+        // Modern browsers use WOFF2; omit duplicate TTF/WOFF assets from the site.
+        return source.replace(/src:([^;}]+)/g, (_declaration, value: string) => {
+          const woff2 = value.split(",").find((entry) => entry.includes(".woff2"));
+          if (!woff2) throw new Error("KaTeX font is missing its WOFF2 source");
+          return `src:${woff2}`;
+        });
+      },
+    },
+  ],
   css: { postcss: { plugins: [tailwindcss()] } },
-  build: { sourcemap: false },
+  build: { sourcemap: false, assetsInlineLimit: 0 },
 });

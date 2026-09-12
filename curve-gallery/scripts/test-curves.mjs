@@ -1,3 +1,4 @@
+import { renderToString } from 'katex';
 import assert from 'node:assert/strict';
 import { readFileSync, writeFileSync, mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
@@ -8,6 +9,7 @@ const folder = mkdtempSync(join(tmpdir(), 'curve-atlas-tests-'));
 try {
   writeFileSync(join(folder, 'package.json'), '{"type":"module"}');
   for (const name of [
+    'equations',
     'curves',
     'catalog',
     'fractals',
@@ -28,7 +30,7 @@ try {
           module: ts.ModuleKind.ES2022,
         },
       })
-      .outputText.replace(/from '(\.\/[^']+)'/g, "from '$1.js'");
+      .outputText.replace(/from (['"])(\.\/[^'"]+)\1/g, 'from "$2.js"');
     writeFileSync(join(folder, name + '.js'), output);
   }
   const { curves, sampleCurve, svgPath } = await import(
@@ -50,6 +52,39 @@ try {
   const { progressAtParameter } = await import(
     pathToFileURL(join(folder, 'geometry.js'))
   );
+  const { physicsEquations, curveEquations } = await import(
+    pathToFileURL(join(folder, 'equations.js'))
+  );
+  function assertEquation(curve) {
+    if (curve.fractal) {
+      assert.equal(
+        curve.equationTex,
+        undefined,
+        `${curve.id}: keep construction descriptions as prose`,
+      );
+      return;
+    }
+    assert(curve.equationTex, `${curve.id}: missing LaTeX`);
+    const html = renderToString(curve.equationTex, {
+      displayMode: true,
+      output: 'htmlAndMathml',
+      throwOnError: true,
+      strict: 'error',
+      trust: false,
+    });
+    assert(html.includes('<math'), `${curve.id}: missing accessible MathML`);
+    assert(!html.includes('katex-error'), `${curve.id}: invalid math`);
+  }
+  for (const curve of curves) assertEquation(curve);
+  assert.deepEqual(
+    Object.keys(curveEquations).sort(),
+    curves
+      .filter((c) => !c.fractal)
+      .map((c) => c.id)
+      .sort(),
+  );
+  for (const [id, equationTex] of Object.entries(physicsEquations))
+    assertEquation({ id, equationTex });
   const byId = (id) => {
     const c = curves.find((c) => c.id === id);
     assert(c, `Missing ${id}`);
@@ -530,6 +565,63 @@ try {
   console.log(
     'PASS: rolling parameter-map bounds, axis directions, rim line, and named marker coordinates in all three modes.',
   );
+  for (const mode of ['inside', 'outside', 'line']) {
+    for (const radius of [0.1, 0.333333, 0.75]) {
+      assertEquation(
+        buildFamilyCurve('rolling', {
+          ...familyDefaults,
+          mode,
+          radius,
+          offset: 0.375,
+        }).curve,
+      );
+    }
+  }
+  for (const eccentricity of [0, 0.5, 1, Math.SQRT2, 2.75]) {
+    assertEquation(
+      buildFamilyCurve('conics', { ...familyDefaults, eccentricity }).curve,
+    );
+  }
+  for (const exponent of [-2, -0.5, 0, 0.5, 2]) {
+    assertEquation(
+      buildFamilyCurve('spirals', {
+        ...familyDefaults,
+        exponent,
+        growth: 'power',
+      }).curve,
+    );
+  }
+  for (const rate of [-0.25, 0, 0.125]) {
+    assertEquation(
+      buildFamilyCurve('spirals', { ...familyDefaults, rate, growth: 'log' })
+        .curve,
+    );
+  }
+  for (const phase of [0, 45, 90, 180, 270]) {
+    const settings = {
+      ...defaultFigures,
+      fx: 2,
+      fy: 5,
+      phase,
+      amplitude: 0.75,
+    };
+    const curve = configureCurve(byId('lissajous'), settings);
+    assertEquation(curve);
+    assert(curve.equationTex.includes(String.raw`\frac{${phase}\pi}{180}`));
+    assert(curve.equationTex.includes('0.75'));
+  }
+  assert.notEqual(
+    configureCurve(byId('rose'), { ...defaultFigures, petals: 2 }).equationTex,
+    configureCurve(byId('rose'), { ...defaultFigures, petals: 5 }).equationTex,
+  );
+  for (const limacon of [0, 0.5, 1, 2.75]) {
+    assertEquation(
+      configureCurve(byId('limacon'), { ...defaultFigures, limacon }),
+    );
+  }
+  console.log(
+    'PASS: LaTeX for every named equation and physics formula; family presets and changing parameters; accessible MathML; fractal descriptions remain prose.',
+  );
   assert.deepEqual(initialFamilySettings('rolling'), familyDefaults);
   assert.equal(initialFamilySettings('roses', 'rose').petals, 5);
   assert.equal(initialFamilySettings('rolling', 'deltoid').radius, 1 / 3);
@@ -542,6 +634,7 @@ try {
         ...familyDefaults,
         ...preset.values,
       });
+      assertEquation(result.curve);
       if (preset.curve)
         assert(
           result.matches.includes(preset.curve),

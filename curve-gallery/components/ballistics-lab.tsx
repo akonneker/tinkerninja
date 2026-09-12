@@ -1,4 +1,6 @@
-'use client';
+import { MathEquation } from '@/components/math-equation';
+import { physicsEquations } from '@/lib/equations';
+('use client');
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { PageLink as Link } from '@/components/page-link';
 import { Play, Pause, RotateCcw } from 'lucide-react';
@@ -296,20 +298,21 @@ export function BallisticsLab() {
       <div className="physics-notes-grid">
         <section className="family-context">
           <h2>Why the parabola changes</h2>
-          <div className="physics-equation">
-            x = v₀ cos(θ)t
-            <br />y = 1 + v₀ sin(θ)t − ½gt²
-          </div>
+          <MathEquation
+            className="physics-equation"
+            tex={physicsEquations.ballistics}
+            fallback="x = v₀ cos(θ)t; y = 1 + v₀ sin(θ)t − ½gt²"
+          />
           <p>
             In the ideal model, horizontal velocity stays constant and gravity
             changes vertical velocity at a constant rate. Eliminating time gives
             a parabola.
           </p>
-          <div className="physics-equation">
-            aₓ = −k|v|vₓ
-            <br />
-            aᵧ = −g − k|v|vᵧ
-          </div>
+          <MathEquation
+            className="physics-equation"
+            tex={physicsEquations.drag}
+            fallback="aₓ = −k|v|vₓ; aᵧ = −g − k|v|vᵧ"
+          />
           <p>
             The second model adds quadratic drag, with k = ρCᴅA/(2m). The same
             resistance acts opposite the velocity vector, slowing horizontal

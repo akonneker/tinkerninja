@@ -1,4 +1,6 @@
-'use client';
+import { MathEquation } from '@/components/math-equation';
+import { physicsEquations } from '@/lib/equations';
+('use client');
 import { useMemo, useState } from 'react';
 import { PageLink as Link } from '@/components/page-link';
 import { Slider } from '@/components/ui/slider';
@@ -216,12 +218,20 @@ export function CableLab() {
         </section>
         <section className="family-context">
           <h2>The equation behind the change</h2>
-          <div className="physics-equation">H y″ = w √(1 + y′²) + q</div>
+          <MathEquation
+            className="physics-equation"
+            tex={physicsEquations.cable}
+            fallback="H y″ = w √(1 + y′²) + q"
+          />
           <p>
             H is the constant horizontal tension, w is cable weight per unit
             cable length, and q is deck load per horizontal length.
           </p>
-          <div className="physics-equation">y″ = λ[(1 − m)√(1 + y′²) + m]</div>
+          <MathEquation
+            className="physics-equation"
+            tex={physicsEquations.cableNormalized}
+            fallback="y″ = λ[(1 − m)√(1 + y′²) + m]"
+          />
           <p>
             In the normalized drawing, λ is adjusted to keep y(±1) equal to the
             chosen sag and y(0) = y′(0) = 0. At m = 0, y = [cosh(λx) − 1]/λ. At

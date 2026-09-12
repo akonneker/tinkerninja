@@ -28,3 +28,9 @@ The CSS build scans only atlas pages and components. If adding a UI primitive, u
 The generated `static/curves/` contains the complete collection, seven family explorers, three physics explorers, and reference shelf. It includes compact metadata JSON under `data/`. Coordinates are computed in the browser; sampled coordinate files and debugging source maps are omitted. Each route has an `index.html`, so production hosting requires no catch-all redirect. The build replaces this generated subtree.
 
 All runtime assets are local. Reference links point to their original sources; the books themselves are not bundled. An optional `?embed=1` view is still available, but the complete atlas is accessed directly at `/curves/`.
+
+## Equations
+
+`lib/equations.ts` contains LaTeX display metadata for the named curves and physics formulas. `equation` retains the plain-text form; `equationTex` supplies the typeset version. Fractal constructions remain prose. When an explorer overrides an equation for changed parameters, update both fields in `lib/curve-controls.ts` or `lib/curve-families.ts`.
+
+`MathEquation` loads KaTeX and its CSS when a formula enters the viewport. All fonts are local WOFF2 files; duplicate legacy formats and source maps are excluded. Wide equations scroll within their panel. The output includes MathML for assistive technology, and plain text remains available while loading or if rendering fails. The formula syntax and dynamic presets are checked by `npm run test:curves`.

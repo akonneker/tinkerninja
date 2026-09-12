@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { Slider } from '@/components/ui/slider';
 import { Switch } from '@/components/ui/switch';
+import { MathEquation } from '@/components/math-equation';
 import { CurveParameters } from '@/components/curve-parameters';
 import {
   configureCurve,
@@ -742,7 +743,11 @@ export function Explorer({
         <TabsContent value="math">
           <div className="story">
             <h3>{curve.fractal ? 'Construction' : 'Defining equation'}</h3>
-            <div className="equation">{curve.equation}</div>
+            {curve.equationTex ? (
+              <MathEquation tex={curve.equationTex} fallback={curve.equation} />
+            ) : (
+              <div className="equation">{curve.equation}</div>
+            )}
             {!curve.fractal && (
               <p className="domain">
                 {curve.ranges.map(([lo, hi], i) => (

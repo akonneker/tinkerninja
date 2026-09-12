@@ -1,3 +1,4 @@
+import { aligned } from './equations';
 import type { Curve, Point } from './curves';
 export type FigureSettings = {
   fx: number;
@@ -38,6 +39,10 @@ export function configureCurve(base: Curve, s: FigureSettings): Curve {
         y_amplitude_ratio: amplitude,
       },
       equation: `x = a sin(${fx}t + ${phase}°); y = ${amplitude}a sin(${fy}t)`,
+      equationTex: aligned(
+        String.raw`x&=a\sin\left(${fx}t+\frac{${phase}\pi}{180}\right)`,
+        String.raw`y&=${amplitude}a\sin(${fy}t)`,
+      ),
       ranges: [[0, (2 * Math.PI) / gcd(fx, fy)]],
       fn: (t, a) => [
         a * Math.sin(fx * t + phi),
@@ -55,6 +60,7 @@ export function configureCurve(base: Curve, s: FigureSettings): Curve {
       ...base,
       settings: { rose_k: k },
       equation: `r = a cos(${k}t)`,
+      equationTex: String.raw`r=a\cos(${k}t)`,
       ranges: [[0, k % 2 ? Math.PI : 2 * Math.PI]],
       fn: (t, a) => [
         a * Math.cos(k * t) * Math.cos(t),
@@ -80,6 +86,7 @@ export function configureCurve(base: Curve, s: FigureSettings): Curve {
       ...base,
       settings: { limacon_ratio: k },
       equation: `r = a(1 + ${k} cos t)`,
+      equationTex: String.raw`r=a(1+${k}\cos t)`,
       fn: (t, a) => [
         a * (1 + k * Math.cos(t)) * Math.cos(t),
         a * (1 + k * Math.cos(t)) * Math.sin(t),
