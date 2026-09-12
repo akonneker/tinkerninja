@@ -16,3 +16,9 @@ hugo*
 .DS_Store
 
 ### end macOS ###
+
+# Curve Atlas workspace dependencies and generated output
+node_modules/
+/static/curves/
+/curve-gallery/outputs/
+*.tsbuildinfo
