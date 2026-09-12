@@ -85,6 +85,24 @@ try {
   );
   for (const [id, equationTex] of Object.entries(physicsEquations))
     assertEquation({ id, equationTex });
+  for (const [id, tex] of Object.entries(physicsEquations)) {
+    const html = renderToString(tex, {
+      displayMode: false,
+      output: 'htmlAndMathml',
+      throwOnError: true,
+      strict: 'error',
+      trust: false,
+    });
+    assert(
+      html.includes('<math'),
+      `${id}: inline math needs accessible MathML`,
+    );
+    assert(
+      !html.includes('katex-display'),
+      `${id}: inline math must stay in the paragraph`,
+    );
+  }
+
   const byId = (id) => {
     const c = curves.find((c) => c.id === id);
     assert(c, `Missing ${id}`);

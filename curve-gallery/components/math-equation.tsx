@@ -6,13 +6,15 @@ let rendererPromise: Promise<Renderer> | undefined;
 export function MathEquation({
   tex,
   fallback,
-  className = 'equation',
+  className,
+  inline = false,
 }: {
   tex: string;
   fallback: string;
   className?: string;
+  inline?: boolean;
 }) {
-  const container = useRef<HTMLDivElement>(null);
+  const container = useRef<HTMLElement | null>(null);
   const [renderer, setRenderer] = useState<Renderer | null>(null);
   useEffect(() => {
     let active = true;
@@ -48,14 +50,20 @@ export function MathEquation({
   const html = useMemo(() => {
     if (!renderer) return null;
     try {
-      return renderer.renderMath(tex);
+      return renderer.renderMath(tex, !inline);
     } catch {
       return null;
     }
-  }, [renderer, tex]);
+  }, [renderer, tex, inline]);
+  const Element = inline ? 'span' : 'div';
   return (
-    <div ref={container} className={`${className} math-equation`}>
-      {html ? <div dangerouslySetInnerHTML={{ __html: html }} /> : fallback}
-    </div>
+    <Element
+      ref={(element) => {
+        container.current = element;
+      }}
+      className={`${className ?? (inline ? '' : 'equation')} ${inline ? 'math-inline' : 'math-equation'}`.trim()}
+    >
+      {html ? <span dangerouslySetInnerHTML={{ __html: html }} /> : fallback}
+    </Element>
   );
 }

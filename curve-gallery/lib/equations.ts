@@ -89,6 +89,12 @@ export const curveEquations: Record<string, string> = {
   cosine: aligned(tex`x&=at`, tex`y&=a\cos t`),
 };
 export const physicsEquations = {
+  brachistochroneRadius: tex`r`,
+  brachistochroneEndAngle: tex`\theta_1`,
+  brachistochroneSpeed: tex`v=\sqrt{-2gy}`,
+  brachistochroneTime: tex`T=\int_A^B\frac{ds}{v}`,
+  brachistochroneParabolaY: tex`y=-\Delta y(2u-u^2)`,
+  brachistochroneParabolaX: tex`x=\Delta x\,u`,
   cable: tex`H y''=w\sqrt{1+(y')^2}+q`,
   cableNormalized: tex`y''=\lambda\left[(1-m)\sqrt{1+(y')^2}+m\right]`,
   ballistics: aligned(

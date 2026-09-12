@@ -275,10 +275,43 @@ export function BrachistochroneLab() {
             fallback="x = r(θ − sin θ); y = −r(1 − cos θ); T = θ₁√(r/g)"
           />
           <p>
-            The endpoint determines r and θ₁. Energy conservation gives speed v
-            = √(−2gy), and arrival time is the integral of ds/v. The straight
-            ramp has a closed-form time; the chosen parabola y = −Δy(2u − u²), x
-            = Δx·u, is integrated numerically.
+            The endpoint determines{' '}
+            <MathEquation
+              inline
+              tex={physicsEquations.brachistochroneRadius}
+              fallback="r"
+            />{' '}
+            and{' '}
+            <MathEquation
+              inline
+              tex={physicsEquations.brachistochroneEndAngle}
+              fallback="θ₁"
+            />
+            . Energy conservation gives speed{' '}
+            <MathEquation
+              inline
+              tex={physicsEquations.brachistochroneSpeed}
+              fallback="v = √(−2gy)"
+            />
+            , and arrival time is{' '}
+            <MathEquation
+              inline
+              tex={physicsEquations.brachistochroneTime}
+              fallback="T = ∫ from A to B of ds/v"
+            />
+            . The straight ramp has a closed-form time; the chosen parabola{' '}
+            <MathEquation
+              inline
+              tex={physicsEquations.brachistochroneParabolaY}
+              fallback="y = −Δy(2u − u²)"
+            />
+            ,{' '}
+            <MathEquation
+              inline
+              tex={physicsEquations.brachistochroneParabolaX}
+              fallback="x = Δx·u"
+            />
+            , is integrated numerically.
           </p>
           <a
             href="https://mathworld.wolfram.com/BrachistochroneProblem.html"

@@ -2239,3 +2239,6 @@ button {
 .math-equation .katex-display { margin: 0.25em 0; text-align: left; }
 .math-equation .katex-display > .katex { text-align: left; }
 @media (max-width: 600px) { .math-equation { font-size: 15px; } }
+
+/* Inline math follows the paragraph baseline and leaves wrapping to KaTeX. */
+.math-inline .katex { font-size: 1.05em; }
