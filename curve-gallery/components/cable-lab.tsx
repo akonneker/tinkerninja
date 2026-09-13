@@ -198,6 +198,26 @@ export function CableLab() {
             so the load per horizontal distance is larger near the supports. Its
             equilibrium shape is a catenary.
           </p>
+          <MathEquation
+            className="physics-equation"
+            tex={physicsEquations.catenary}
+            fallback="y = a cosh(x/a)"
+          />
+          <p>
+            Here cosh is the hyperbolic cosine, and{' '}
+            <MathEquation
+              inline
+              tex={physicsEquations.catenaryScale}
+              fallback="a = H/w"
+            />{' '}
+            is the horizontal tension divided by the cable weight per unit
+            length. The simulation shifts the lowest point to the origin:
+          </p>
+          <MathEquation
+            className="physics-equation"
+            tex={physicsEquations.catenaryShifted}
+            fallback="y = a[cosh(x/a) − 1]"
+          />
           <p>
             An idealized suspension-bridge deck instead supplies equal load per
             horizontal interval. If that load dominates and the cable’s own

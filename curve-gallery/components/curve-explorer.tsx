@@ -443,7 +443,12 @@ export function Explorer({
             .map((y) => (
               <text
                 key={'yl' + y}
-                x={Math.max(7, Math.min(370, px(0) + 7))}
+                x={
+                  curve.fractal
+                    ? Math.max(32, Math.min(393, px(0) - 7))
+                    : Math.max(7, Math.min(370, px(0) + 7))
+                }
+                textAnchor={curve.fractal ? 'end' : 'start'}
                 y={py(y) - 6}
                 className="axis-label"
               >
