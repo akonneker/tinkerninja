@@ -65,10 +65,13 @@ function sourceLabel(c: Curve) {
 export function Explorer({
   curve: baseCurve,
   familyMode = false,
+  pageMode = false,
 }: {
   curve: Curve;
   familyMode?: boolean;
+  pageMode?: boolean;
 }) {
+  const Heading = pageMode ? 'h1' : 'h2';
   const [trace, setTrace] = useState(baseCurve.fractal ? 1 : 0.16),
     [traceBranch, setTraceBranch] = useState<number>(),
     [a, setA] = useState(1),
@@ -244,7 +247,7 @@ export function Explorer({
         <span className="eyebrow">ON THE DRAWING BOARD</span>
         <span className="live-dot">Interactive</span>
       </div>
-      <h2>{curve.name}</h2>
+      <Heading>{curve.name}</Heading>
       {!familyMode && (
         <div className="related-family-links">
           {curve.id === 'cycloid' && (

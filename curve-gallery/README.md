@@ -25,6 +25,8 @@ The CSS build scans only atlas pages and components. If adding a UI primitive, u
 
 ## Output
 
+Named curve links such as `/curves/?curve=lemniscate` open a dedicated, full-page explorer. The collection uses ordinary links, so browser Back, bookmarks, and opening a curve in a new tab work naturally.
+
 The generated `static/curves/` contains the complete collection, seven family explorers, three physics explorers, and reference shelf. It includes compact metadata JSON under `data/`. Coordinates are computed in the browser; sampled coordinate files and debugging source maps are omitted. Each route has an `index.html`, so production hosting requires no catch-all redirect. The build replaces this generated subtree.
 
 All runtime assets are local. Reference links point to their original sources; the books themselves are not bundled. An optional `?embed=1` view is still available, but the complete atlas is accessed directly at `/curves/`.

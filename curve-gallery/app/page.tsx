@@ -1,5 +1,5 @@
 'use client';
-import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
+import { Fragment, useMemo, useState } from 'react';
 import { PageLink as Link } from '@/components/page-link';
 import {
   ArrowUpRight,
@@ -7,7 +7,6 @@ import {
   MoveUpRight,
   Search,
   ArrowRight,
-  X,
 } from 'lucide-react';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
@@ -16,17 +15,9 @@ import {
   DialogTitle,
   DialogDescription,
 } from '@/components/ui/dialog';
-import {
-  Sheet,
-  SheetContent,
-  SheetTitle,
-  SheetDescription,
-} from '@/components/ui/sheet';
-import { Explorer } from '@/components/curve-explorer';
 import { PhysicsShelf } from '@/components/physics-shelf';
 import { FamilyShelf } from '@/components/family-shelf';
 import { curves, sampleCurve, svgPath } from '@/lib/curves';
-import type { Curve } from '@/lib/curves';
 const families = [
   'All curves',
   'Conics',
@@ -45,29 +36,9 @@ const thumbnails = new Map(
   curves.map((c) => [c.id, svgPath(sampleCurve(c, 1, 400, 3))]),
 );
 export default function Home() {
-  const [selected, setSelected] = useState(curves[0]),
-    [query, setQuery] = useState(''),
+  const [query, setQuery] = useState(''),
     [family, setFamily] = useState('All curves'),
-    [mobileOpen, setMobileOpen] = useState(false),
     [about, setAbout] = useState(false);
-  const panelRef = useRef<HTMLElement>(null);
-  useEffect(() => {
-    const pop = () => {
-      const c = curves.find(
-        (c) =>
-          c.id === new URLSearchParams(window.location.search).get('curve'),
-      );
-      setSelected(c ?? curves[0]);
-      if (c && window.matchMedia('(max-width:780px)').matches)
-        setMobileOpen(true);
-    };
-    const frame = requestAnimationFrame(pop);
-    window.addEventListener('popstate', pop);
-    return () => {
-      cancelAnimationFrame(frame);
-      window.removeEventListener('popstate', pop);
-    };
-  }, []);
   const shown = useMemo(
     () =>
       curves
@@ -83,12 +54,6 @@ export default function Home() {
         ),
     [family, query],
   );
-  function select(c: Curve) {
-    setSelected(c);
-    window.history.replaceState(null, '', `?curve=${c.id}`);
-    panelRef.current?.scrollTo({ top: 0 });
-    if (window.matchMedia('(max-width:780px)').matches) setMobileOpen(true);
-  }
   return (
     <>
       <a href="#collection" className="skip-link">
@@ -128,7 +93,7 @@ export default function Home() {
         </div>
         <FamilyShelf />
         <PhysicsShelf />
-        <div className="atlas-layout">
+        <div className="atlas-layout collection-layout">
           <section
             className="collection"
             id="collection"
@@ -178,24 +143,16 @@ export default function Home() {
                   {(i === 0 || c.family !== shown[i - 1].family) && (
                     <h2 className="curve-group-heading">{c.family}</h2>
                   )}
-                  <button
-                    key={c.id}
-                    aria-pressed={selected.id === c.id}
+                  <Link
+                    href={`/?curve=${c.id}`}
                     aria-label={`Explore ${c.name}`}
-                    className={`curve-card ${selected.id === c.id ? 'selected' : ''} family-${c.family.split(' ')[0].toLowerCase()}`}
-                    onClick={() => select(c)}
+                    className={`curve-card family-${c.family.split(' ')[0].toLowerCase()}`}
                   >
                     <div className="card-top">
                       <span>
                         {String(curves.indexOf(c) + 1).padStart(2, '0')}
                       </span>
-                      {selected.id === c.id ? (
-                        <span className="selected-indicator">
-                          VIEWING <span />
-                        </span>
-                      ) : (
-                        <MoveUpRight size={16} />
-                      )}
+                      <MoveUpRight size={16} />
                     </div>
                     <svg viewBox="0 0 300 300" aria-hidden="true">
                       <path d={thumbnails.get(c.id)} />
@@ -207,7 +164,7 @@ export default function Home() {
                         {c.fractal ? ' · approximation' : ''}
                       </span>
                     </div>
-                  </button>
+                  </Link>
                 </Fragment>
               ))}
             </div>
@@ -233,13 +190,6 @@ export default function Home() {
               family.
             </p>
           </section>
-          <aside
-            ref={panelRef}
-            className="explorer desktop-explorer"
-            aria-label={`${selected.name} explorer`}
-          >
-            <Explorer key={selected.id} curve={selected} />
-          </aside>
         </div>
         <footer id="references">
           <BookOpen size={25} />
@@ -284,25 +234,6 @@ export default function Home() {
           </button>
         </footer>
       </main>
-      <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
-        <SheetContent className="mobile-sheet" showCloseButton={false}>
-          <SheetTitle className="sr-only">{selected.name} explorer</SheetTitle>
-          <SheetDescription className="sr-only">
-            Trace the curve, read coordinates, and explore its history and
-            equation.
-          </SheetDescription>
-          <div className="explorer sheet-explorer">
-            <button
-              className="secondary-button sheet-back"
-              onClick={() => setMobileOpen(false)}
-            >
-              <X size={17} />
-              Back to collection
-            </button>
-            <Explorer key={selected.id} curve={selected} />
-          </div>
-        </SheetContent>
-      </Sheet>
       <Dialog open={about} onOpenChange={setAbout}>
         <DialogContent className="about-dialog">
           <DialogTitle className="about-title">

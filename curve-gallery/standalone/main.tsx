@@ -1,5 +1,6 @@
 import { createRoot } from 'react-dom/client';
 import Home from '@/app/page';
+import { CurvePage } from '@/components/curve-page';
 import References from '@/app/references/page';
 import PhysicsIndex from '@/app/physics/page';
 import { FamilyLab } from '@/components/family-lab';
@@ -31,7 +32,7 @@ function resolvePage() {
     document.title = curve
       ? `${curve.name} · The Curve Atlas`
       : 'The Curve Atlas';
-    return <Home />;
+    return curve ? <CurvePage curve={curve} /> : <Home />;
   }
   if (path.startsWith('/families/')) {
     const family = curveFamilies.find((f) => path === `/families/${f.id}`);

@@ -262,7 +262,7 @@ h1 span {
   border-radius: 50%;
   margin-right: 5px;
 }
-.explorer > h2 {
+.explorer > :is(h1, h2) {
   font-family: Georgia, serif;
   font-size: 29px;
   font-weight: 400;
@@ -592,7 +592,7 @@ button {
 .live-dot {
   font-size: 12px;
 }
-.explorer > h2 {
+.explorer > :is(h1, h2) {
   margin-top: 16px;
   font-size: 29px;
 }
@@ -2242,3 +2242,41 @@ button {
 
 /* Inline math follows the paragraph baseline and leaves wrapping to KaTeX. */
 .math-inline .katex { font-size: 1.05em; }
+
+/* Named curves have their own document instead of a scrolling side panel. */
+.atlas-layout.collection-layout {
+  display: block;
+}
+.collection-layout .curve-grid {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+}
+a.curve-card {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+a.curve-card:focus-visible {
+  outline: 3px solid #2449b7;
+  outline-offset: 3px;
+}
+main.curve-page {
+  max-width: 960px;
+  margin: 28px auto 64px;
+}
+.curve-page-explorer {
+  position: static;
+  max-height: none;
+  overflow: visible;
+  padding: clamp(18px, 3vw, 36px);
+}
+.curve-page-explorer > h1 {
+  font-size: clamp(30px, 4vw, 44px);
+}
+.curve-page-explorer .plot {
+  width: 100%;
+  max-width: 680px;
+  margin-inline: auto;
+}
+.curve-page-explorer .plot > svg {
+  max-height: none;
+}
