@@ -551,6 +551,20 @@ export function Explorer({
             strokeWidth="1"
             strokeDasharray="4 4"
           />
+          <g
+            aria-hidden="true"
+            pointerEvents="none"
+            fill="#e87051"
+            stroke="white"
+            strokeWidth="1.5"
+          >
+            {py(0) >= 0 && py(0) <= 320 && (
+              <circle cx={px(point.x)} cy={py(0)} r="3" />
+            )}
+            {px(0) >= 0 && px(0) <= 400 && (
+              <circle cx={px(0)} cy={py(point.y)} r="3" />
+            )}
+          </g>
           <circle
             cx={px(point.x)}
             cy={py(point.y)}
